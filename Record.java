@@ -1,15 +1,14 @@
 import java.util.*;
 
 public class Record {
-	private int size;
-	private List<String> list = new ArrayList<>();
+	private List<String> fields = new ArrayList<>();
 
-	public Record(int size) {
-		this.size = size;
+	public Record(List<String> fields) {
+		this.fields = fields;
 	}
 
-	public Record add(String str) {
-		list.add(str);
+	public Record addField(String str) {
+		fields.add(str);
 		return this;
 	}
 }
