@@ -2,26 +2,38 @@ import java.util.Scanner;
 
 public class Main {
 	public static void main(String[] args) {
-		// 起動メッセージ
+		// 起動通知文表示
 		System.out.println("DBP ~ DataBaseProgram~");
 		System.out.println();
 
+		// シェル起動
 		runShell();
 	}
 
 	private static void runShell() {
 		Scanner sc = new Scanner(System.in);
-		String cmd;
+
+		String in[];
+		
+		DatabaseController ctrlr = new DatabaseController();
 
 		for(;;) {
 			System.out.print("> ");
-			cmd = sc.nextLine();
-			switch (cmd) {
+			in = sc.nextLine().split(" ");
+			switch (in[0]) {
 				case "help":
 					printHelp();
 					System.out.println("");
 					break;
 				case "newdb":
+					if (in.length != 2)
+						System.out.println("[エラー] 不正な書式");
+					else
+						try {
+							ctrlr.newDatabase(in[1]);
+						} catch (DatabaseException dbe) {
+							System.out.println("[エラー] " + dbe.getMessage());
+						}
 					System.out.println("");
 					break;
 				case "seldb":
@@ -37,7 +49,7 @@ public class Main {
 					break;
 				default:
 					System.out.println("[エラー] 存在しないコマンド");
-					System.out.println("    コマンド: " + cmd);
+					System.out.println("    コマンド: " + in[0]);
 					System.out.println("");
 			}
 		}
