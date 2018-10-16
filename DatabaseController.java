@@ -1,11 +1,12 @@
 
 
 public class DatabaseController {
+
 	public Database newDatabase(String name) throws DatabaseException {
 		return new Database();
 	}
 
-	public Database opnDatabase(String name) throws DatabaseException {
+	public Database openDatabase(String name) throws DatabaseException {
 		return new Database();
 	}
 

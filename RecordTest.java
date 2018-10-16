@@ -23,6 +23,10 @@ public class RecordTest {
 			rec2.getFields().stream().forEach(field -> System.out.println(field));
 			System.out.println();
 
+			rec2.changeField(rec2.indexOf("456"), "789");
+	
+			rec2.getFields().stream().forEach(field -> System.out.println(field));
+			System.out.println();
 			
 			Record rec3 = new Record(length);
 			rec3.addField("始皇帝");

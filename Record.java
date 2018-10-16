@@ -8,15 +8,26 @@ public class Record {
 		this.size = size;
 	}
 		
+	// フィールド追加
 	public Record addField(String str) throws DatabaseException {
-		fields.add(str);
-		
-		if (fields.size() > size) 
-			throw new DatabaseException("フィールド数がカラム数を超越 (" + fields.size() + " > " + size + ")");
+		if (fields.size() + 1 > size) 
+			throw new DatabaseException("フィールド数がカラム数を超越 (" + (fields.size() + 1) + " > " + size + ")");
 
+		fields.add(str);
 		return this;
 	}
 
+	// フィールド位置取得
+	private int indexOf(String field) {
+		return fields.indexOf(field);
+	}
+
+	// フィールド変更
+	public void changeField(String oldField, String newField) {
+		fields.set(indexOf(oldField), newField);
+	}
+
+	// 全フィールド取得
 	public List<String> getFields() {
 		return fields;
 	}
