@@ -7,7 +7,7 @@ public class Record {
 	public Record(int size) {
 		this.size = size;
 	}
-		
+
 	// フィールド追加
 	public Record addField(String str) throws DatabaseException {
 		if (fields.size() + 1 > size) 
@@ -18,12 +18,17 @@ public class Record {
 	}
 
 	// フィールド位置取得
-	private int indexOf(String field) {
-		return fields.indexOf(field);
+	private int indexOf(String field) throws DatabaseException {
+		int index = fields.indexOf(field);
+
+		if (index == -1)
+			throw new DatabaseException("存在しないフィールドが指定されました");
+
+		return index;
 	}
 
 	// フィールド変更
-	public void changeField(String oldField, String newField) {
+	public void changeField(String oldField, String newField) throws DatabaseException {
 		fields.set(indexOf(oldField), newField);
 	}
 

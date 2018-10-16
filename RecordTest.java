@@ -23,7 +23,7 @@ public class RecordTest {
 			rec2.getFields().stream().forEach(field -> System.out.println(field));
 			System.out.println();
 
-			rec2.changeField(rec2.indexOf("456"), "789");
+			rec2.changeField("456", "789");
 	
 			rec2.getFields().stream().forEach(field -> System.out.println(field));
 			System.out.println();
