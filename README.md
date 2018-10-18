@@ -1,10 +1,17 @@
-コンパイル
+DBP
+===
+
+## コンパイル
 ```sh
-% javac Main.java
+$ javac Main.java
 ```
 
-実行
+## 実行
 ```sh
-% java Main
+$ java Main
 ```
+
+## 各の使い方
+`*Test.java`を参照
+
 
