@@ -20,7 +20,7 @@ public class DatabaseTest {
 			rec1.addField("天安門広場");
 			rec1.addField("123");
 			table.addRecord(rec1);
-	
+
 			Record rec2 = table.getRecordInstance();
 			rec2.addField("佐藤花子").addField("エルサレム").addField("456");
 			table.addRecord(rec2);
@@ -37,12 +37,38 @@ public class DatabaseTest {
 		base.addTable(table).addTable(table);
 
 		base.getTables().stream().forEach(t -> {
+			System.out.println(t.getName());
 			t.getColumns().stream().forEach(column -> System.out.print(column + " "));
+			System.out.println();
+
+			t.getRecords().stream().forEach(record -> {
+				record.getFields().stream().forEach(field -> System.out.print(field + " "));
+				System.out.println();
+			});
+			System.out.println();
 		});
+
+		System.out.println();
+		System.out.println();
+
+		// 削除試験
+		try {
+			base.removeTable(table);
+			base.getTables().stream().forEach(t -> {
+				System.out.println(t.getName());
+				t.getColumns().stream().forEach(column -> System.out.print(column + " "));
+				System.out.println();
+
+				t.getRecords().stream().forEach(record -> {
+					record.getFields().stream().forEach(field -> System.out.print(field + " "));
+					System.out.println();
+				});
+				System.out.println();
+			});
+		} catch(DatabaseException de) {
+			de.printStackTrace();
+		}
 		/* -------------------------------------------------------------------- */
-
-
-
 	}
 }
 
