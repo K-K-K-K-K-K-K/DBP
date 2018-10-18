@@ -1,10 +1,20 @@
 import java.util.*;
 
 public class Database {
+	private String name;
 	private List<Table> tables = new ArrayList<>();
 
-	public void addTable(Table table) {
+	public Database(String name) {
+		this.name = name;
+	}
+
+	public String getName() {
+		return name;
+	}
+
+	public Database addTable(Table table) {
 		tables.add(table);
+		return this;
 	}
 
 	public void removeTable(Table table) throws DatabaseException {
