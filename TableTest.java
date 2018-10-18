@@ -2,7 +2,10 @@ import java.util.*;
 
 public class TableTest {
 	public static void main(String[] args) {
-		Table table = new Table(3);
+		Table table = new Table("名簿", 3);
+
+		System.out.println(table.getName());
+
 
 		/* カラム登録のテスト ------------------------------------------------- */
 		try {

@@ -1,12 +1,18 @@
 import java.util.*;
 
 public class Table {
+	private String name;
 	private int size;
 	private List<String> columns = new ArrayList<>();
 	private List<Record> records = new ArrayList<>();
 
-	public Table(int size) {
+	public Table(String name, int size) {
+		this.name = name;
 		this.size = size;
+	}
+
+	public String getName() {
+		return name;
 	}
 
 	// カラム追加
