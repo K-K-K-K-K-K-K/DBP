@@ -14,7 +14,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		String in[];
 		DatabaseController dbc = new DatabaseController();
-		Database db;
+		Database db = new Database("");// boolean flag で未設定状態つけてどうこうする
 
 		for(;;) {
 			System.out.print("> ");
@@ -40,7 +40,7 @@ public class Main {
 
 				case "seldb":
 					if (in.length != 2)
-						System.out.println();
+						System.out.println("[エラー] 不正な書式");
 					else
 						try {
 							db = dbc.openDatabase(in[1]);
@@ -57,6 +57,24 @@ public class Main {
 					});
 
 					System.out.println("");
+					break;
+
+				case "newtbl":
+					if (in.length != 3)
+						System.out.println("[エラー] 不正な書式");
+					else {
+						Table tbl = new Table(in[1], Integer.parseInt(in[2]));
+						db.addTable(tbl);
+					}
+					break;
+
+				case "seltbl":
+					break;
+				
+				case "shwtbl":
+					db.getTables().stream().forEach(table -> {
+						System.out.println(table.getName());
+					});
 					break;
 
 				case "exit":
