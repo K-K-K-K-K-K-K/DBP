@@ -6,6 +6,9 @@ public class DatabaseController {
 	private final String pool = "DataPool";
 
 	public Database newDatabase(String name) throws DatabaseException {
+		if (Files.exists(Paths.get(".", pool, name)))
+			throw new DatabaseException("既に存在するデータベースです");
+
 		try {
 			Files.createDirectories(Paths.get(".", pool, name));
 		} catch (IOException ioe) {
