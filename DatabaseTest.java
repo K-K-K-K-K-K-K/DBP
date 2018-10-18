@@ -65,7 +65,7 @@ public class DatabaseTest {
 				});
 				System.out.println();
 			});
-		} catch(DatabaseException de) {
+		} catch (DatabaseException de) {
 			de.printStackTrace();
 		}
 		/* -------------------------------------------------------------------- */
