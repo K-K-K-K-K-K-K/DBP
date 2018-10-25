@@ -102,6 +102,14 @@ public class DatabaseController {
 		}
 	}
 
+	public void removeDatabase(String dbName) throws DatabaseException {
+		try {
+			Files.delete(Paths.get(".", pool, dbName));
+		} catch (IOException ioe) {
+			throw new DatabaseException("DBP用ファイル及ディレクトリの削除に失敗");
+		}
+	}
+
 	public List<String> getDatabaseNames() throws DatabaseException {
 		List<String> dbNames = new ArrayList<>();
 

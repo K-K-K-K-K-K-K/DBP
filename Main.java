@@ -66,12 +66,15 @@ public class Main {
 					System.out.println();
 					break;
 
-				// 未実装
-				case "rmdb":
+				case "deldb":
 					if (in.length != 2)
 						System.out.println("[エラー] 不正な書式");
 					else
-						//dbc.removeDatabase(in[1]);
+						try {
+							dbc.removeDatabase(in[1]);
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] + " + de.getMessage());
+						}
 
 					System.out.println();
 					break;
@@ -118,7 +121,25 @@ public class Main {
 
 					System.out.println("");
 					break;
+	
+				//
+				case "deltbl":
+					if (in.length != 2) 
+						System.out.println("[エラー] 不正な書式");
+					else
+						if (db == null)
+							System.out.println("[エラー] データベースが選択されていません");
+						else {
+							try {
+								db.removeTable(db.getTables().get(db.indexOfTable(in[1])));
+							} catch (DatabaseException de) {
+								System.out.println("[エラー] " + de.getMessage());
+							}
+						}
 
+					System.out.println("");
+					break;
+	
 				// >
 				case "addclm":
 					System.out.println();
@@ -149,14 +170,13 @@ public class Main {
 					break;
 
 				//
-				case "rmrec":
+				case "delrec":
 					break;
 
 				//
 				case "edrec":
 					break;
 
-				// 未試験
 				case "shwrec":
 					tbl.getColumns().stream().forEach(clm -> {
 						System.out.print(clm + "    ");
@@ -197,7 +217,7 @@ public class Main {
 
 	private static void printHelp() {
 		System.out.println("プログラム: 状態(status) | ヘルプ(help) | 終了(exit)");
-		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 一覧表示(shwdb)");
+		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 削除 (deldb) | 一覧表示(shwdb)");
 		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 一覧表示(shwtbl)");
 		System.out.println("レコード: 新規作成(newrec) |一覧表示((shwrec)");
 		// 削除, 編輯 -> Mainでの実装さえできればできる
