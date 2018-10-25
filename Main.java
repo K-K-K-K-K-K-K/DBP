@@ -13,11 +13,17 @@ public class Main {
 	private static void runShell() {
 		Scanner sc = new Scanner(System.in);
 		String in[];
+
 		DatabaseController dbc = new DatabaseController();
-		Database db = new Database("");// boolean flag で未設定状態つけてどうこうする
+
+		Database db = null;
+		Table tbl = null;
+		String dbName = "";
+		String tblName = "";
+		String info = dbName + (tblName.equals("") ? "" : "-") + tblName;
 
 		for(;;) {
-			System.out.print("> ");
+			System.out.print(info + "> ");
 			in = sc.nextLine().split(" ");
 			switch (in[0]) {
 				case "help":
@@ -67,18 +73,41 @@ public class Main {
 					if (in.length != 3)
 						System.out.println("[エラー] 不正な書式");
 					else {
-						Table tbl = new Table(in[1], Integer.parseInt(in[2]));
-						db.addTable(tbl);
+						if (db != null) {
+							tbl = new Table(in[1], Integer.parseInt(in[2]));
+							db.addTable(tbl);
+						} else
+							System.out.println("[エラー] データベースが選択されていません");
 					}
+
+					System.out.println();
 					break;
 
 				case "seltbl":
+					System.out.println("");
 					break;
 				
 				case "shwtbl":
-					db.getTables().stream().forEach(table -> {
-						System.out.println(table.getName());
-					});
+					if (db != null)
+						db.getTables().stream().forEach(table -> {
+							System.out.println(table.getName());
+						});
+					else
+						System.out.println("[エラー] データベースが選択されていません");
+
+					System.out.println("");
+					break;
+
+				case "newrec":
+					System.out.println("");
+					break;
+
+				case "selrec":
+					System.out.println("");
+					break;
+
+				case "shwrec":
+					System.out.println("");
 					break;
 
 				case "exit":

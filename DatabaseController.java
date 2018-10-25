@@ -1,6 +1,7 @@
 import java.util.*;
 import java.io.*;
 import java.nio.file.*;
+import java.nio.charset.*;
 
 public class DatabaseController {
 	private final String pool = "DataPool";
@@ -19,10 +20,16 @@ public class DatabaseController {
 	}
 
 	public Database openDatabase(String name) throws DatabaseException {
-		// ファイル開く
-		// 文字列処理でTable,Recordあばばばば
-		// テーブルをDBに突っ込む
 		Database db = new Database(name);
+		try {
+			Files.newBufferedReader(Paths.get(".", pool, name), Charset.forName("UTF-8"))
+				.lines()
+				.map(line -> line.split("::"))
+				.forEach(System.out::println);
+		} catch (IOException ioe) {
+			throw new DatabaseException("DBP用ファイルの読込に失敗");
+		}
+
 		return db;
 	}
 
