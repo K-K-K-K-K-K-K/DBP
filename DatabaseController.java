@@ -26,13 +26,18 @@ public class DatabaseController {
 		return db;
 	}
 
-	public List<String> getDatabaseNames() {
-		// 
-		List<String> dbnames = new ArrayList<>();
-		dbnames.add("aaa");
-		dbnames.add("bbb");
-		dbnames.add("ccc");
-		return dbnames;
+	public List<String> getDatabaseNames() throws DatabaseException {
+		List<String> dbNames = new ArrayList<>();
+
+		try {
+			Files.newDirectoryStream(Paths.get(".", pool)).forEach(path -> {
+				dbNames.add(path.getFileName().toString());
+			});
+		} catch (IOException ioe) {
+			throw new DatabaseException("DBP用ファイルの一覧取得に失敗");
+		}
+
+		return dbNames;
 	}
 }
 

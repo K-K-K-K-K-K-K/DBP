@@ -52,9 +52,13 @@ public class Main {
 					break;
 
 				case "shwdb":
-					dbc.getDatabaseNames().stream().forEach(name -> {
-						System.out.println(name);
-					});
+					try {
+						dbc.getDatabaseNames().stream().forEach(name -> {
+							System.out.println(name);
+						});
+					} catch (DatabaseException de) {
+						System.out.println("[エラー] + " + de.getMessage());
+					}
 
 					System.out.println("");
 					break;
