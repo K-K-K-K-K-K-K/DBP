@@ -18,12 +18,9 @@ public class Main {
 
 		Database db = null;
 		Table tbl = null;
-		String dbName = "";
-		String tblName = "";
-		String info = dbName + (tblName.equals("") ? "" : "-") + tblName;
 
 		for(;;) {
-			System.out.print(info + "> ");
+			System.out.print("> ");
 			in = sc.nextLine().split(" ");
 			switch (in[0]) {
 				case "help":
@@ -83,7 +80,11 @@ public class Main {
 					System.out.println();
 					break;
 
+				// 未実装
 				case "seltbl":
+					if (in.length != 2)
+						System.out.println("[エラー] 不正な書式");
+
 					System.out.println("");
 					break;
 				
@@ -108,13 +109,14 @@ public class Main {
 								rec.addField(in[i]);
 							}
 						} catch (DatabaseException e) {
-							System.out.println("error");
+							System.out.println("[エラー] レコードの作成ｊに失敗しました");
 						}
 					}
 
 					System.out.println("");
 					break;
 
+				// 未試験
 				case "shwrec":
 					tbl.getColumns().stream().forEach(clm -> {
 						System.out.print(clm + "    ");
@@ -135,6 +137,13 @@ public class Main {
 					System.out.println("");
 					System.exit(0);
 
+				case "status":
+					System.out.println("データベース: " + (db == null ? "" : db.getName()));
+					System.out.println("テーブル: " + (tbl == null ? "" : tbl.getName()));
+					
+					System.out.println("");
+					break;
+
 				case "":
 					break;
 
@@ -147,7 +156,7 @@ public class Main {
 	}
 
 	private static void printHelp() {
-		System.out.println("プログラム: ヘルプ(help) | 終了(exit)");
+		System.out.println("プログラム: 状態(status) | ヘルプ(help) | 終了(exit)");
 		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 一覧表示(shwdb)");
 		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 一覧表示(shwtbl)");
 		System.out.println("レコード: 新規作成(newrec) |一覧表示((shwrec)");

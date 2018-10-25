@@ -20,6 +20,9 @@ public class DatabaseController {
 	}
 
 	public Database openDatabase(String name) throws DatabaseException {
+		if (!Files.exists(Paths.get(".", pool, name)))
+			throw new DatabaseException("存在しないデータベースです");
+
 		Database db = new Database(name);
 		try {
 			Files.newDirectoryStream(Paths.get(".", pool, name)).forEach(path -> {
