@@ -8,6 +8,10 @@ public class Record {
 		this.size = size;
 	}
 
+	public int getSize() {
+		return size;
+	}
+
 	// フィールド追加
 	public Record addField(String str) throws DatabaseException {
 		if (fields.size() + 1 > size) 

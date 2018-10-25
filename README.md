@@ -12,6 +12,6 @@ $ java Main
 ```
 
 ## 各の使い方
-`*Test.java`を参照
+`Tests\*Test.java`を参照
 
 

@@ -25,6 +25,7 @@ public class DatabaseController {
 
 		Database db = new Database(name);
 		try {
+			// テーブル読込
 			Files.newDirectoryStream(Paths.get(".", pool, name)).forEach(path -> {
 				try {
 					List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
@@ -66,7 +67,39 @@ public class DatabaseController {
 	}
 
 	public void saveDatabase(Database db) throws DatabaseException {
-		// 保存
+		try {
+			db.getTables().stream().forEach(tbl -> {
+				try {
+					BufferedWriter bw = Files.newBufferedWriter(Paths.get(".", pool, db.getName(), tbl.getName()), StandardCharsets.UTF_8);
+					for (int i = 0; i < tbl.getSize(); i++) {
+						String clm = tbl.getColumns().get(i);
+						bw.write(clm, 0, clm.length());
+	
+						if (i != tbl.getSize() - 1)
+							bw.write("::", 0, 2);
+					}
+					bw.newLine();
+	
+					for (int i = 0; i < tbl.getRecords().size(); i++) {
+						Record rec = tbl.getRecords().get(i);
+						for (int j = 0; i < rec.getSize(); i++) {
+							String field = rec.getFields().get(i);
+							bw.write(field, 0, field.length());
+				
+							if (j != rec.getSize() - 1)
+								bw.write("::", 0, 2);
+						}
+						bw.newLine();
+					}
+	
+					bw.close();
+				} catch (Exception e) {
+					throw new RuntimeException();
+				}	
+			});
+		} catch (Exception e) {
+			throw new DatabaseException("DBP用ファイルへの書出に失敗");
+		}
 	}
 
 	public List<String> getDatabaseNames() throws DatabaseException {

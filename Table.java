@@ -15,6 +15,10 @@ public class Table {
 		return name;
 	}
 
+	public int getSize() {
+		return size;
+	}
+
 	// カラム追加
 	public Table addColumn(String column) throws DatabaseException {
 		if (columns.size() + 1 > size) 

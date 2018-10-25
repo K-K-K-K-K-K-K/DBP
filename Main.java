@@ -38,7 +38,7 @@ public class Main {
 							System.out.println("[エラー] " + dbe.getMessage());
 						}
 
-					System.out.println("");
+					System.out.println();
 					break;
 
 				case "seldb":
@@ -51,7 +51,7 @@ public class Main {
 							System.out.println("[エラー] " + de.getMessage());
 						}
 
-					System.out.println("");
+					System.out.println();
 					break;
 
 				case "shwdb":
@@ -63,42 +63,74 @@ public class Main {
 						System.out.println("[エラー] + " + de.getMessage());
 					}
 
-					System.out.println("");
+					System.out.println();
+					break;
+
+				// 未実装
+				case "rmdb":
+					if (in.length != 2)
+						System.out.println("[エラー] 不正な書式");
+					else
+						//dbc.removeDatabase(in[1]);
+
+					System.out.println();
 					break;
 
 				case "newtbl":
 					if (in.length != 3)
 						System.out.println("[エラー] 不正な書式");
 					else {
-						if (db != null) {
+						if (db == null)
+							System.out.println("[エラー] データベースが選択されていません");
+						else {
 							tbl = new Table(in[1], Integer.parseInt(in[2]));
 							db.addTable(tbl);
-						} else
-							System.out.println("[エラー] データベースが選択されていません");
+						}
 					}
 
 					System.out.println();
 					break;
 
-				// 未実装
 				case "seltbl":
-					if (in.length != 2)
+					if (in.length != 2) 
 						System.out.println("[エラー] 不正な書式");
+					else
+						if (db == null)
+							System.out.println("[エラー] データベースが選択されていません");
+						else {
+							try {
+								tbl = db.getTables().get(db.indexOfTable(in[1]));
+							} catch (DatabaseException de) {
+								System.out.println("[エラー] " + de.getMessage());
+							}
+						}
 
 					System.out.println("");
 					break;
 				
 				case "shwtbl":
-					if (db != null)
+					if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else
 						db.getTables().stream().forEach(table -> {
 							System.out.println(table.getName());
 						});
-					else
-						System.out.println("[エラー] データベースが選択されていません");
 
 					System.out.println("");
 					break;
 
+				// >
+				case "addclm":
+					System.out.println();
+					break;
+
+				// 未実装
+				case "chclm":
+					// カラム名変更
+					System.out.println();
+					break;
+
+				// ?
 				case "newrec":
 					if (in.length !=tbl.getColumns().size())
 						System.out.println("[エラー] 不正な書式");
@@ -114,6 +146,14 @@ public class Main {
 					}
 
 					System.out.println("");
+					break;
+
+				//
+				case "rmrec":
+					break;
+
+				//
+				case "edrec":
 					break;
 
 				// 未試験

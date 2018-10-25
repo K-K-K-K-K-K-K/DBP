@@ -24,6 +24,21 @@ public class Database {
 		tables.remove(table);
 	}
 
+	public int indexOfTable(String name) throws DatabaseException {
+		int index = -1;
+
+		for (int i = 0; i < tables.size();i++)
+			if (tables.get(i).getName().equals(name)) {
+				index = i;
+				break;
+			}
+
+		if (index == -1)
+			throw new DatabaseException("存在しないテーブルが指定されました");
+
+		return index;
+	}
+
 	public List<Table> getTables() {
 		return tables;
 	}
