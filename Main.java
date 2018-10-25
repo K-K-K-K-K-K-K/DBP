@@ -99,14 +99,35 @@ public class Main {
 					break;
 
 				case "newrec":
-					System.out.println("");
-					break;
+					if (in.length !=tbl.getColumns().size())
+						System.out.println("[エラー] 不正な書式");
+					else {
+						Record rec = tbl.getRecordInstance();
+						try {
+							for (int i = 0; i < tbl.getColumns().size(); i++) {
+								rec.addField(in[i]);
+							}
+						} catch (DatabaseException e) {
+							System.out.println("error");
+						}
+					}
 
-				case "selrec":
 					System.out.println("");
 					break;
 
 				case "shwrec":
+					tbl.getColumns().stream().forEach(clm -> {
+						System.out.print(clm + "    ");
+					});
+					System.out.println();
+
+					tbl.getRecords().stream().forEach(rec -> {
+						rec.getFields().stream().forEach(field -> {
+							System.out.print(field + "    ");
+						});
+						System.out.println();
+					});
+
 					System.out.println("");
 					break;
 
@@ -129,7 +150,8 @@ public class Main {
 		System.out.println("プログラム: ヘルプ(help) | 終了(exit)");
 		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 一覧表示(shwdb)");
 		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 一覧表示(shwtbl)");
-		System.out.println("レコード: 新規作成(newrec) | 開く(selrec) |一覧表示((shwrec)");
+		System.out.println("レコード: 新規作成(newrec) |一覧表示((shwrec)");
+		// 削除, 編輯 -> Mainでの実装さえできればできる
 	}
 }
 

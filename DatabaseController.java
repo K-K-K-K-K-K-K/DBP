@@ -22,15 +22,48 @@ public class DatabaseController {
 	public Database openDatabase(String name) throws DatabaseException {
 		Database db = new Database(name);
 		try {
-			Files.newBufferedReader(Paths.get(".", pool, name), Charset.forName("UTF-8"))
-				.lines()
-				.map(line -> line.split("::"))
-				.forEach(System.out::println);
-		} catch (IOException ioe) {
+			Files.newDirectoryStream(Paths.get(".", pool, name)).forEach(path -> {
+				try {
+					List<String> lines = Files.readAllLines(path, StandardCharsets.UTF_8);
+				
+					// カラム読込
+					String[] clms = lines.get(0).split("::");
+					Table tbl = new Table(path.getFileName().toString(), clms.length);
+					Arrays.stream(clms).forEach(clm -> {
+						try {
+							tbl.addColumn(clm);
+						} catch (DatabaseException de) {
+							throw new RuntimeException();
+						}
+					});
+
+					// レコード読込
+					for (int i = 1; i < lines.size() - 1; i++) {
+						Record rec = tbl.getRecordInstance();
+						Arrays.stream(lines.get(i).split("::")).forEach(field -> {
+							try {
+								rec.addField(field);
+							} catch (DatabaseException de) {
+								throw new RuntimeException();
+							}
+						});
+						tbl.addRecord(rec);
+					}
+	
+					db.addTable(tbl);
+				} catch (Exception e) {
+						throw new RuntimeException();
+				}
+			});
+		} catch (Exception e) {
 			throw new DatabaseException("DBP用ファイルの読込に失敗");
 		}
 
 		return db;
+	}
+
+	public void saveDatabase(Database db) throws DatabaseException {
+		// 保存
 	}
 
 	public List<String> getDatabaseNames() throws DatabaseException {
