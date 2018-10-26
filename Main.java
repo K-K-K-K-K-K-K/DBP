@@ -26,8 +26,18 @@ public class Main {
 				case "":
 					break;
 
-				// 未実装
+				// dbc側にエラーあり
 				case "save":
+					if (db == null)
+						System.out.println("[エラー] データベースは指定されていません");
+					else
+						try {
+							dbc.saveDatabase(db);
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
+						}
+
+					System.out.println();
 					break;
 
 				case "status":
@@ -194,7 +204,7 @@ public class Main {
 					System.out.println();
 					break;
 
-				// 未試験
+				// tbl側にエラーか？getRecIns
 				case "newrec":
 					if (in.length + 1 != tbl.getColumns().size())
 						System.out.println("[エラー] 不正な書式");
@@ -216,7 +226,6 @@ public class Main {
 					System.out.println();
 					break;
 
-				// 未試験
 				case "delrec":
 					if (in.length != 2)
 						System.out.println("[エラー] 不正な書式");
@@ -242,18 +251,19 @@ public class Main {
 
 				case "shwrec":
 					tbl.getColumns().stream().forEach(clm -> {
-						System.out.print(clm + "    ");
+						System.out.print("  " + clm + "    ");
 					});
 					System.out.println();
 
 					System.out.println("----------------------------------------");
 
-					tbl.getRecords().stream().forEach(rec -> {
-						rec.getFields().stream().forEach(field -> {
+					for (int i = 0; i < tbl.getRecords().size(); i++) {
+						System.out.print(i + ": ");
+						tbl.getRecords().get(i).getFields().stream().forEach(field -> {
 							System.out.print(field + "    ");
 						});
 						System.out.println();
-					});
+					}
 
 					System.out.println();
 					break;
@@ -272,7 +282,7 @@ public class Main {
 		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 削除 (deltbl) | 一覧表示(shwtbl)");
 		System.out.println("カラム: 追加 (addclm) | 名称変更 (chclmnm)");
 		System.out.println("レコード: 新規作成(newrec) | 削除 (delrec) | 編輯 (edrec) | 一覧表示(shwrec)");
-		// 検索 | 編輯 -> Mainでの実装が為されれば可能
+		// 検索 -> Mainでの実装が為されれば可能
 	}
 }
 
