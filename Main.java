@@ -23,10 +23,28 @@ public class Main {
 			System.out.print("> ");
 			in = sc.nextLine().split(" ");
 			switch (in[0]) {
+				case "":
+					break;
+
+				// 未実装
+				case "save":
+					break;
+
+				case "status":
+					System.out.println("データベース: " + (db == null ? "" : db.getName()));
+					System.out.println("テーブル: " + (tbl == null ? "" : tbl.getName()));
+					
+					System.out.println();
+					break;
+
 				case "help":
 					printHelp();
 					System.out.println();
 					break;
+				
+				case "exit":
+					System.out.println();
+					System.exit(0);
 
 				case "newdb":
 					if (in.length != 2)
@@ -54,18 +72,6 @@ public class Main {
 					System.out.println();
 					break;
 
-				case "shwdb":
-					try {
-						dbc.getDatabaseNames().stream().forEach(name -> {
-							System.out.println(name);
-						});
-					} catch (DatabaseException de) {
-						System.out.println("[エラー] + " + de.getMessage());
-					}
-
-					System.out.println();
-					break;
-
 				case "deldb":
 					if (in.length != 2)
 						System.out.println("[エラー] 不正な書式");
@@ -81,13 +87,31 @@ public class Main {
 					System.out.println();
 					break;
 
+				case "shwdb":
+					try {
+						dbc.getDatabaseNames().stream().forEach(name -> {
+							System.out.println(name);
+						});
+					} catch (DatabaseException de) {
+						System.out.println("[エラー] + " + de.getMessage());
+					}
+
+					System.out.println();
+					break;
+
 				case "newtbl":
 					if (in.length != 3)
 						System.out.println("[エラー] 不正な書式");
 					else if (db == null)
 						System.out.println("[エラー] データベースが選択されていません");
 					else {
-						tbl = new Table(in[1], Integer.parseInt(in[2]));
+						try {
+							tbl = dbc.newTable(db, in[1], Integer.parseInt(in[2]));
+						} catch (NumberFormatException nfe) {
+							System.out.println("[エラー] 入力が数値ではありません");
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
+						}
 						db.addTable(tbl);
 					}
 
@@ -109,17 +133,6 @@ public class Main {
 					System.out.println();
 					break;
 				
-				case "shwtbl":
-					if (db == null)
-						System.out.println("[エラー] データベースが選択されていません");
-					else
-						db.getTables().stream().forEach(table -> {
-							System.out.println(table.getName());
-						});
-
-					System.out.println();
-					break;
-	
 				case "deltbl":
 					if (in.length != 2) 
 						System.out.println("[エラー] 不正な書式");
@@ -137,7 +150,17 @@ public class Main {
 					System.out.println();
 					break;
 	
-				// 未試験
+				case "shwtbl":
+					if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else
+						db.getTables().stream().forEach(table -> {
+							System.out.println(table.getName());
+						});
+
+					System.out.println();
+					break;
+
 				case "addclm":
 					if (in.length != 2)
 						System.out.println("[エラー] 不正な書式");
@@ -156,8 +179,7 @@ public class Main {
 					System.out.println();
 					break;
 
-				// 未試験
-				case "chclm":
+				case "chclmnm":
 					if (in.length != 3)
 						System.out.println("[エラー] 不正な書式");
 					else if (db == null)
@@ -216,7 +238,7 @@ public class Main {
 					System.out.println();
 					break;
 
-				//
+				// 未実装: あるレコードの編輯(番号で指定)
 				case "edrec":
 					break;
 
@@ -238,20 +260,6 @@ public class Main {
 					System.out.println();
 					break;
 
-				case "exit":
-					System.out.println();
-					System.exit(0);
-
-				case "status":
-					System.out.println("データベース: " + (db == null ? "" : db.getName()));
-					System.out.println("テーブル: " + (tbl == null ? "" : tbl.getName()));
-					
-					System.out.println();
-					break;
-
-				case "":
-					break;
-
 				default:
 					System.out.println("[エラー] 存在しないコマンド");
 					System.out.println("    コマンド: " + in[0]);
@@ -261,12 +269,12 @@ public class Main {
 	}
 
 	private static void printHelp() {
-		// コマンド一覧最新化の要有
-		System.out.println("プログラム: 状態(status) | ヘルプ(help) | 終了(exit)");
+		System.out.println("プログラム: 保存 (save) | 状態(status) | ヘルプ(help) | 終了(exit)");
 		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 削除 (deldb) | 一覧表示(shwdb)");
-		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 一覧表示(shwtbl)");
-		System.out.println("レコード: 新規作成(newrec) |一覧表示((shwrec)");
-		// 削除, 編輯 -> Mainでの実装さえできればできる
+		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 削除 (deltbl) | 一覧表示(shwtbl)");
+		System.out.println("カラム: 追加 (addclm) | 名称変更 (chclmnm)");
+		System.out.println("レコード: 新規作成(newrec) | 削除 (delrec) | 編輯 (edrec) | 一覧表示(shwrec)");
+		// 検索 | 編輯 -> Mainでの実装が為されれば可能
 	}
 }
 

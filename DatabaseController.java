@@ -68,6 +68,7 @@ public class DatabaseController {
 
 	public void saveDatabase(Database db) throws DatabaseException {
 		try {
+			Files.createDirectories(Paths.get(".", pool, db.getName()));
 			db.getTables().stream().forEach(tbl -> {
 				try {
 					BufferedWriter bw = Files.newBufferedWriter(Paths.get(".", pool, db.getName(), tbl.getName()), StandardCharsets.UTF_8);
@@ -122,6 +123,19 @@ public class DatabaseController {
 		}
 
 		return dbNames;
+	}
+
+	public Table newTable(Database db, String name, int size) throws DatabaseException {
+		try {
+			Files.createFile(Paths.get(pool, db.getName(), name));
+		} catch (UnsupportedOperationException uoe) {
+			throw new DatabaseException("使用不可能な文字を検出");
+		} catch (FileAlreadyExistsException fae) {
+			throw new DatabaseException("既に存在するテーブルです");
+		} catch (IOException ioe) {
+			throw new DatabaseException("テーブルの作成に失敗");
+		}
+		return new Table(name, size);
 	}
 }
 
