@@ -250,19 +250,25 @@ public class Main {
 					break;
 
 				case "shwrec":
-					tbl.getColumns().stream().forEach(clm -> {
-						System.out.print("  " + clm + "    ");
-					});
-					System.out.println();
-
-					System.out.println("----------------------------------------");
-
-					for (int i = 0; i < tbl.getRecords().size(); i++) {
-						System.out.print(i + ": ");
-						tbl.getRecords().get(i).getFields().stream().forEach(field -> {
-							System.out.print(field + "    ");
+					if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else if (tbl == null)
+						System.out.println("[エラー] テーブルが選択されていません");
+					else {
+						tbl.getColumns().stream().forEach(clm -> {
+							System.out.print("  " + clm + "    ");
 						});
 						System.out.println();
+
+						System.out.println("----------------------------------------");
+
+						for (int i = 0; i < tbl.getRecords().size(); i++) {
+							System.out.print(i + ": ");
+							tbl.getRecords().get(i).getFields().stream().forEach(field -> {
+								System.out.print(field + "    ");
+							});
+							System.out.println();
+						}
 					}
 
 					System.out.println();
