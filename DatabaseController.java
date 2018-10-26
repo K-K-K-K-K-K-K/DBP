@@ -125,7 +125,7 @@ public class DatabaseController {
 		return dbNames;
 	}
 
-	public Table newTable(Database db, String name, int size) throws DatabaseException {
+	/*public Table newTable(Database db, String name, int size) throws DatabaseException {
 		try {
 			Files.createFile(Paths.get(pool, db.getName(), name));
 		} catch (UnsupportedOperationException uoe) {
@@ -136,6 +136,6 @@ public class DatabaseController {
 			throw new DatabaseException("テーブルの作成に失敗");
 		}
 		return new Table(name, size);
-	}
+	}*/
 }
 

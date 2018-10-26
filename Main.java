@@ -106,13 +106,11 @@ public class Main {
 						System.out.println("[エラー] データベースが選択されていません");
 					else {
 						try {
-							tbl = dbc.newTable(db, in[1], Integer.parseInt(in[2]));
+							tbl = new Table(in[1], Integer.parseInt(in[2]));
+							db.addTable(tbl);
 						} catch (NumberFormatException nfe) {
 							System.out.println("[エラー] 入力が数値ではありません");
-						} catch (DatabaseException de) {
-							System.out.println("[エラー] " + de.getMessage());
 						}
-						db.addTable(tbl);
 					}
 
 					System.out.println();
