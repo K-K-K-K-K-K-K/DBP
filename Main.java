@@ -25,7 +25,7 @@ public class Main {
 			switch (in[0]) {
 				case "help":
 					printHelp();
-					System.out.println("");
+					System.out.println();
 					break;
 
 				case "newdb":
@@ -71,6 +71,8 @@ public class Main {
 						System.out.println("[エラー] 不正な書式");
 					else
 						try {
+							if (db.getName().equals(in[1]))
+								db = null;
 							dbc.removeDatabase(in[1]);
 						} catch (DatabaseException de) {
 							System.out.println("[エラー] + " + de.getMessage());
@@ -82,13 +84,11 @@ public class Main {
 				case "newtbl":
 					if (in.length != 3)
 						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
 					else {
-						if (db == null)
-							System.out.println("[エラー] データベースが選択されていません");
-						else {
-							tbl = new Table(in[1], Integer.parseInt(in[2]));
-							db.addTable(tbl);
-						}
+						tbl = new Table(in[1], Integer.parseInt(in[2]));
+						db.addTable(tbl);
 					}
 
 					System.out.println();
@@ -97,18 +97,16 @@ public class Main {
 				case "seltbl":
 					if (in.length != 2) 
 						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
 					else
-						if (db == null)
-							System.out.println("[エラー] データベースが選択されていません");
-						else {
-							try {
-								tbl = db.getTables().get(db.indexOfTable(in[1]));
-							} catch (DatabaseException de) {
-								System.out.println("[エラー] " + de.getMessage());
-							}
+						try {
+							tbl = db.getTables().get(db.indexOfTable(in[1]));
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
 						}
 
-					System.out.println("");
+					System.out.println();
 					break;
 				
 				case "shwtbl":
@@ -119,58 +117,103 @@ public class Main {
 							System.out.println(table.getName());
 						});
 
-					System.out.println("");
+					System.out.println();
 					break;
 	
-				//
 				case "deltbl":
 					if (in.length != 2) 
 						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
 					else
-						if (db == null)
-							System.out.println("[エラー] データベースが選択されていません");
-						else {
-							try {
-								db.removeTable(db.getTables().get(db.indexOfTable(in[1])));
-							} catch (DatabaseException de) {
-								System.out.println("[エラー] " + de.getMessage());
-							}
+						try {
+							if (tbl.getName().equals(in[1]))
+								tbl = null;
+							db.removeTable(db.getTables().get(db.indexOfTable(in[1])));
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
 						}
 
-					System.out.println("");
+					System.out.println();
 					break;
 	
-				// >
+				// 未試験
 				case "addclm":
-					System.out.println();
-					break;
-
-				// 未実装
-				case "chclm":
-					// カラム名変更
-					System.out.println();
-					break;
-
-				// ?
-				case "newrec":
-					if (in.length !=tbl.getColumns().size())
+					if (in.length != 2)
 						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else if (tbl == null)
+						System.out.println("[エラー] テーブルが選択されていません");
+					else
+						try {
+							tbl.addColumn(in[1]);
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
+						}
+							
+
+					System.out.println();
+					break;
+
+				// 未試験
+				case "chclm":
+					if (in.length != 3)
+						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else if (tbl == null)
+						System.out.println("[エラー] テーブルが選択されていません");
+					else
+						try {
+							tbl.changeColumn(in[1], in[2]);
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
+						}
+
+					System.out.println();
+					break;
+
+				// 未試験
+				case "newrec":
+					if (in.length + 1 != tbl.getColumns().size())
+						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else if (tbl == null)
+						System.out.println("[エラー] テーブルが選択されていません");
 					else {
 						Record rec = tbl.getRecordInstance();
 						try {
-							for (int i = 0; i < tbl.getColumns().size(); i++) {
+							for (int i = 1; i < tbl.getColumns().size(); i++) {
 								rec.addField(in[i]);
 							}
-						} catch (DatabaseException e) {
-							System.out.println("[エラー] レコードの作成ｊに失敗しました");
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
 						}
 					}
 
-					System.out.println("");
+					System.out.println();
 					break;
 
-				//
+				// 未試験
 				case "delrec":
+					if (in.length != 2)
+						System.out.println("[エラー] 不正な書式");
+					else if (db == null)
+						System.out.println("[エラー] データベースが選択されていません");
+					else if (tbl == null)
+						System.out.println("[エラー] テーブルが選択されていません");
+					else
+						try {
+							tbl.removeRecord(Integer.parseInt(in[1]));
+						} catch (NumberFormatException nfe) {
+							System.out.println("[エラー] 入力が数字ではありません");
+						} catch (DatabaseException de) {
+							System.out.println("[エラー] " + de.getMessage());
+						}
+
+					System.out.println();
 					break;
 
 				//
@@ -183,6 +226,8 @@ public class Main {
 					});
 					System.out.println();
 
+					System.out.println("----------------------------------------");
+
 					tbl.getRecords().stream().forEach(rec -> {
 						rec.getFields().stream().forEach(field -> {
 							System.out.print(field + "    ");
@@ -190,18 +235,18 @@ public class Main {
 						System.out.println();
 					});
 
-					System.out.println("");
+					System.out.println();
 					break;
 
 				case "exit":
-					System.out.println("");
+					System.out.println();
 					System.exit(0);
 
 				case "status":
 					System.out.println("データベース: " + (db == null ? "" : db.getName()));
 					System.out.println("テーブル: " + (tbl == null ? "" : tbl.getName()));
 					
-					System.out.println("");
+					System.out.println();
 					break;
 
 				case "":
@@ -210,12 +255,13 @@ public class Main {
 				default:
 					System.out.println("[エラー] 存在しないコマンド");
 					System.out.println("    コマンド: " + in[0]);
-					System.out.println("");
+					System.out.println();
 			}
 		}
 	}
 
 	private static void printHelp() {
+		// コマンド一覧最新化の要有
 		System.out.println("プログラム: 状態(status) | ヘルプ(help) | 終了(exit)");
 		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 削除 (deldb) | 一覧表示(shwdb)");
 		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 一覧表示(shwtbl)");

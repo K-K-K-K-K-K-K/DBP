@@ -22,7 +22,7 @@ public class Record {
 	}
 
 	// フィールド位置取得
-	private int indexOf(String field) throws DatabaseException {
+	private int indexOfField(String field) throws DatabaseException {
 		int index = fields.indexOf(field);
 
 		if (index == -1)
@@ -33,7 +33,7 @@ public class Record {
 
 	// フィールド変更
 	public void changeField(String oldField, String newField) throws DatabaseException {
-		fields.set(indexOf(oldField), newField);
+		fields.set(indexOfField(oldField), newField);
 	}
 
 	// 全フィールド取得

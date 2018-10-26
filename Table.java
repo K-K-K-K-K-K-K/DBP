@@ -76,10 +76,11 @@ public class Table {
 	}
 
 	// レコード削除
-	public void removeRecord(Record record) throws DatabaseException {
-		if (!records.contains(record))
+	public void removeRecord(int index) throws DatabaseException {
+		if (index >= records.size())
 			throw new DatabaseException("存在しないレコードが指定されました");
-		records.remove(record);
+
+		records.remove(index);
 	}
 
 	// 全レコード取得
