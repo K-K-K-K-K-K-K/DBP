@@ -204,9 +204,8 @@ public class Main {
 					System.out.println();
 					break;
 
-				// tbl側にエラーか？getRecIns
 				case "newrec":
-					if (in.length + 1 != tbl.getColumns().size())
+					if (in.length - 1 != tbl.getColumns().size())
 						System.out.println("[エラー] 不正な書式");
 					else if (db == null)
 						System.out.println("[エラー] データベースが選択されていません");
@@ -215,9 +214,10 @@ public class Main {
 					else {
 						Record rec = tbl.getRecordInstance();
 						try {
-							for (int i = 1; i < tbl.getColumns().size(); i++) {
+							for (int i = 1; i < in.length; i++) {
 								rec.addField(in[i]);
 							}
+							tbl.addRecord(rec);
 						} catch (DatabaseException de) {
 							System.out.println("[エラー] " + de.getMessage());
 						}
