@@ -42,7 +42,7 @@ public class DatabaseController {
 					});
 
 					// レコード読込
-					for (int i = 1; i < lines.size() - 1; i++) {
+					for (int i = 1; i < lines.size(); i++) {
 						Record rec = tbl.getRecordInstance();
 						Arrays.stream(lines.get(i).split("::")).forEach(field -> {
 							try {
@@ -81,22 +81,17 @@ public class DatabaseController {
 					bw.newLine();
 
 					for (int i = 0; i < tbl.getRecords().size(); i++) {
-						tbl.getRecords().get(i).getFields().stream().forEach(
-						System.out::println);
-					}
-
-/*					for (int i = 0; i < tbl.getRecords().size(); i++) {
 						Record rec = tbl.getRecords().get(i);
-						for (int j = 0; i < rec.getSize() + 1; i++) {// + 1
+						for (int j = 0; j < rec.getFields().size(); j++) {
 							String field = rec.getFields().get(i);
 							bw.write(field, 0, field.length());
 				
-							if (j != rec.getSize() - 1)
+							if (j != rec.getFields().size() - 1)
 								bw.write("::", 0, 2);
 						}
 						bw.newLine();
 					}
-	*/
+
 					bw.close();
 				} catch (Exception e) {
 					throw new RuntimeException();
