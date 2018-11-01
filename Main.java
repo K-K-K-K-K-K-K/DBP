@@ -87,7 +87,7 @@ public class Main {
 						System.out.println("[エラー] 不正な書式");
 					else
 						try {
-							if (db.getName().equals(in[1]))
+							if (db != null && db.getName().equals(in[1]))
 								db = null;
 							dbc.removeDatabase(in[1]);
 						} catch (DatabaseException de) {
@@ -148,7 +148,7 @@ public class Main {
 						System.out.println("[エラー] データベースが選択されていません");
 					else
 						try {
-							if (tbl.getName().equals(in[1]))
+							if (tbl != null && tbl.getName().equals(in[1]))
 								tbl = null;
 							db.removeTable(db.getTables().get(db.indexOfTable(in[1])));
 						} catch (DatabaseException de) {
