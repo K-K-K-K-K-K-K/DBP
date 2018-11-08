@@ -83,7 +83,7 @@ public class DatabaseController {
 					for (int i = 0; i < tbl.getRecords().size(); i++) {
 						Record rec = tbl.getRecords().get(i);
 						for (int j = 0; j < rec.getFields().size(); j++) {
-							String field = rec.getFields().get(i);
+							String field = rec.getFields().get(j);
 							bw.write(field, 0, field.length());
 				
 							if (j != rec.getFields().size() - 1)
