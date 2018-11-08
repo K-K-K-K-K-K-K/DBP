@@ -245,10 +245,6 @@ public class Main {
 					System.out.println();
 					break;
 
-				// 未実装: あるレコードの編輯(番号で指定)
-				case "edrec":
-					break;
-
 				case "shwrec":
 					if (db == null)
 						System.out.println("[エラー] データベースが選択されていません");
@@ -287,8 +283,8 @@ public class Main {
 		System.out.println("データベース: 新規作成(newdb) | 開く(seldb) | 削除 (deldb) | 一覧表示(shwdb)");
 		System.out.println("テーブル: 新規作成(newtbl) | 開く(seltbl) | 削除 (deltbl) | 一覧表示(shwtbl)");
 		System.out.println("カラム: 追加 (addclm) | 名称変更 (chclmnm)");
-		System.out.println("レコード: 新規作成(newrec) | 削除 (delrec) | 編輯 (edrec) | 一覧表示(shwrec)");
-		// 検索 -> Mainでの実装が為されれば可能
+		System.out.println("レコード: 新規作成(newrec) | 削除 (delrec) | 一覧表示(shwrec)");
+		// 編輯, 検索 -> Mainでの実装が為されれば可能
 	}
 }
 
