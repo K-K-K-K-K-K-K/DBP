@@ -54,10 +54,12 @@ public class Table {
 	}
 
 	// レコード追加
-	public void addRecord(Record rec) throws DatabaseException {
+	public Table addRecord(Record rec) throws DatabaseException {
 		if (rec.getFields().size() != size)
 			throw new DatabaseException("レコードのサイズが不正です");
+
 		records.add(rec);
+		return this;
 	}
 
 	// レコード位置取得
