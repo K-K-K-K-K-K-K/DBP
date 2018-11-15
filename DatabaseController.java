@@ -4,7 +4,11 @@ import java.nio.file.*;
 import java.nio.charset.*;
 
 public class DatabaseController {
-	private final String pool = "DataPool";
+	private String pool;
+
+	public DatabaseController(String pool) {
+		this.pool = pool;
+	}
 
 	public Database newDatabase(String name) throws DatabaseException {
 		if (Files.exists(Paths.get(".", pool, name)))

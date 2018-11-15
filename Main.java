@@ -14,7 +14,7 @@ public class Main {
 		Scanner sc = new Scanner(System.in);
 		String in[];
 
-		DatabaseController dbc = new DatabaseController();
+		DatabaseController dbc = new DatabaseController("DataPool");
 
 		Database db = null;
 		Table tbl = null;
