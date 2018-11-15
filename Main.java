@@ -26,10 +26,9 @@ public class Main {
 				case "":
 					break;
 
-				// dbc側にエラーあり
 				case "save":
 					if (db == null)
-						System.out.println("[エラー] データベースは指定されていません");
+						System.out.println("[エラー] データベースが指定されていません");
 					else
 						try {
 							dbc.saveDatabase(db);
