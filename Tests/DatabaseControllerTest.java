@@ -56,7 +56,7 @@ public class DatabaseControllerTest {
 					)
 					.addRecord(
 						tbl.getRecordInstance()
-							.addField("洪吉童")
+							.addField("朴")
 							.addField("朝鮮民主主義人民共和国")
 					)
 					.addRecord(
