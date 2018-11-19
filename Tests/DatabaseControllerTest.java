@@ -56,12 +56,12 @@ public class DatabaseControllerTest {
 					)
 					.addRecord(
 						tbl.getRecordInstance()
-							.addField("佐藤")
+							.addField("洪吉童")
 							.addField("朝鮮民主主義人民共和国")
 					)
 					.addRecord(
 						tbl.getRecordInstance()
-							.addField("鈴木")
+							.addField("阮")
 							.addField("共和社会主義越南")
 					)
 			);
